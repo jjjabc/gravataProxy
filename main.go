@@ -1,8 +1,11 @@
 package main
 
-import "net/http"
+import (
+	"github.com/jjjabc/gravataProxy/hander"
+	"net/http"
+)
 
 func main() {
-	http.HandleFunc("/",Proxyto)
+	http.HandleFunc("/", hander.Proxy)
 	http.ListenAndServe(":8080", nil)
 }

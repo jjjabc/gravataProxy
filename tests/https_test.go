@@ -5,26 +5,25 @@ import (
 	"net/http"
 	"strconv"
 	"testing"
+	"crypto/tls"
 )
 
 func TestHttps(t *testing.T) {
-	PORT = 8443
 	var (
 		Scheme string
 		Path   string
 		//Query     string
 		URLString string
 	)
-	CerFile := "CA.cer"
-	PriKey := "CA.key"
-	//http.HandleFunc("/", hander.Proxy)
-	go http.ListenAndServeTLS(":"+strconv.Itoa(PORT), CerFile, PriKey, nil)
 	client := http.DefaultClient
+	client.Transport = &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
 	var response *http.Response
 	var err error
-	Convey("测试http", t, func() {
+	Convey("测试https", t, func() {
 		Scheme = "https"
-		URLString = Scheme + "://" + HOST + ":" + strconv.Itoa(PORT)
+		URLString = Scheme + "://" + HOST + ":" + strconv.Itoa(HTTPSPORT)
 		Convey("测试正常头像链接", func() {
 			Convey("Path为/avatar/18ddf52ec2bbc95511fcab6b8a16dd8f", func() {
 				Path = "/avatar/18ddf52ec2bbc95511fcab6b8a16dd8f"

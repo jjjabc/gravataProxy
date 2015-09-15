@@ -1,22 +1,11 @@
 package test
 
 import (
-	"github.com/jjjabc/gravataProxy/hander"
 	. "github.com/smartystreets/goconvey/convey"
 	"net/http"
 	"strconv"
 	"testing"
 )
-
-var (
-	PORT int
-	HOST string
-)
-
-func init() {
-	PORT = 8001
-	HOST = "localhost"
-}
 
 func TestHttp(t *testing.T) {
 	var (
@@ -25,14 +14,12 @@ func TestHttp(t *testing.T) {
 		//Query     string
 		URLString string
 	)
-	http.HandleFunc("/", hander.Proxy)
-	go http.ListenAndServe(":"+strconv.Itoa(PORT), nil)
 	client := http.DefaultClient
 	var response *http.Response
 	var err error
 	Convey("测试http", t, func() {
 		Scheme = "http"
-		URLString = Scheme + "://" + HOST + ":" + strconv.Itoa(PORT)
+		URLString = Scheme + "://" + HOST + ":" + strconv.Itoa(HTTPPORT)
 		Convey("测试正常头像链接", func() {
 			Convey("Path为/avatar/18ddf52ec2bbc95511fcab6b8a16dd8f", func() {
 				Path = "/avatar/18ddf52ec2bbc95511fcab6b8a16dd8f"

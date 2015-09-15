@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 	"github.com/jjjabc/gravataProxy/hander"
+	"strconv"
 )
 func InitServer(){
 	var err error
@@ -32,9 +33,9 @@ func StartServer(handler http.Handler,Port uint32, TSLParameters ...string) erro
 		return ParametersError
 	}
 	if isTSLServer {
-		err = http.ListenAndServeTLS(":8443", TSLParameters[0], TSLParameters[1], handler)
+		err = http.ListenAndServeTLS(":"+strconv.Itoa(Port), TSLParameters[0], TSLParameters[1], handler)
 	} else {
-		err = http.ListenAndServe(":8080", handler)
+		err = http.ListenAndServe(":"+strconv.Itoa(Port), handler)
 
 	}
 	return err

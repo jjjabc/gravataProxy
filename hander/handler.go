@@ -13,18 +13,7 @@ func Proxy(w http.ResponseWriter, re *http.Request) {
 	if proxyRequest.URL.Scheme == "" {
 		proxyRequest.URL.Scheme = "http"
 	}
-	/*	if re.URL.Scheme != "http" || re.URL.Scheme != "https" {
-		return
-	}*/
-	isPathOK := strings.HasPrefix(re.URL.Path, "/avatar/")
-	if len(re.URL.Path) == 40 {
-		isPathOK = isPathOK && true
-	} else if (len(re.URL.Path) == 41) && re.URL.Path[40] == '/' {
-		isPathOK = isPathOK && true
-	}else{
-		isPathOK = false
-	}
-	if !isPathOK {
+	if !pathCheck(re.URL.Path) {
 		http.NotFound(w, re)
 		return
 	}
@@ -35,7 +24,6 @@ func Proxy(w http.ResponseWriter, re *http.Request) {
 		http.Error(w, "client.Do error:"+err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 	bodyRC := response.Body
 	defer bodyRC.Close()
 	data, err := ioutil.ReadAll(bodyRC)
@@ -44,4 +32,16 @@ func Proxy(w http.ResponseWriter, re *http.Request) {
 		return
 	}
 	w.Write(data)
+}
+
+func pathCheck(path string) bool{
+	isPathOK := strings.HasPrefix(path, "/avatar/")
+	if len(path) == 40 {
+		isPathOK = isPathOK && true
+	} else if (len(path) == 41) && path[40] == '/' {
+		isPathOK = isPathOK && true
+	}else{
+		isPathOK = false
+	}
+	return isPathOK
 }

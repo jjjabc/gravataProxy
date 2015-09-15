@@ -26,3 +26,4 @@ _testmain.go
 .idea/*
 *.iml
 gravataProxy
+.DS_Store

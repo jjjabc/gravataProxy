@@ -1,11 +1,9 @@
 package main
 
 import (
-	"github.com/jjjabc/gravataProxy/hander"
-	"net/http"
+	"github.com/jjjabc/gravataProxy/server"
 )
 
 func main() {
-	http.HandleFunc("/", hander.Proxy)
-	http.ListenAndServe(":8080", nil)
+	server.InitServer()
 }

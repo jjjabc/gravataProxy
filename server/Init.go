@@ -33,9 +33,9 @@ func StartServer(handler http.Handler,Port uint32, TSLParameters ...string) erro
 		return ParametersError
 	}
 	if isTSLServer {
-		err = http.ListenAndServeTLS(":"+strconv.Itoa(Port), TSLParameters[0], TSLParameters[1], handler)
+		err = http.ListenAndServeTLS(":"+strconv.Itoa(int(Port)), TSLParameters[0], TSLParameters[1], handler)
 	} else {
-		err = http.ListenAndServe(":"+strconv.Itoa(Port), handler)
+		err = http.ListenAndServe(":"+strconv.Itoa(int(Port)), handler)
 
 	}
 	return err

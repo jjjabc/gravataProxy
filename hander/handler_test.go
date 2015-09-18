@@ -69,7 +69,7 @@ func (this readerCloser) Close() error {
 func TestProxy(t *testing.T) {
 	Convey("测试Proxy", t, func() {
 		rw := responseWriter{int: new(int)}
-		q, err := http.NewRequest("GET", "http://loaclhost:8080/avatar/18ddf52ec2bbc95511fcab6b8a16dd8f?s=128", new(readerCloser))
+		q, err := http.NewRequest("GET", "http://loaclhost:8001/avatar/18ddf52ec2bbc95511fcab6b8a16dd8f?s=128", new(readerCloser))
 		if err != nil {
 			Println(err.Error())
 			return
@@ -77,5 +77,14 @@ func TestProxy(t *testing.T) {
 		Proxy(rw, q)
 		So(*(rw.int), ShouldEqual, 5642)
 	})
-
+	Convey("测试Proxy,非法url", t, func() {
+		rw := responseWriter{int: new(int)}
+		q, err := http.NewRequest("GET", "http://loaclhost:8001/avatar/18ddf2bbc95511fcab6b8a16dd8f?d=128", new(readerCloser))
+		if err != nil {
+			Println(err.Error())
+			return
+		}
+		Proxy(rw, q)
+		So(*(rw.int), ShouldEqual, 19)
+	})
 }

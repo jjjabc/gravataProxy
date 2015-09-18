@@ -33,7 +33,7 @@ func TestHttps(t *testing.T) {
 				So(response.StatusCode, ShouldBeIn, 200, 304)
 				So(response.Header.Get("Content-Type"), ShouldEqual, "image/jpeg")
 			})
-			Convey(`Path为/avatar/18ddf52ec2bbc95511fcab6b8a16dd8f/,短于md5hash结果`, func() {
+			Convey(`Path为/avatar/18ddf52ec2bbc95511fcab6b8a16dd8f/`, func() {
 				Path = "/avatar/18ddf52ec2bbc95511fcab6b8a16dd8f/"
 				url := URLString + Path
 				response, err = client.Get(url)
